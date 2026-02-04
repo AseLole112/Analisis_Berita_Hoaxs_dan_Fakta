@@ -18,6 +18,18 @@ from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 import ast
 from google.colab import files
 
+# Load data
+data_hoax = "https://raw.githubusercontent.com/AseLole112/Analisis_Berita_Hoaxs_dan_Fakta/master/dataset_turnbackhoax_10k(hoax).csv"
+data_fakta = "https://raw.githubusercontent.com/AseLole112/Analisis_Berita_Hoaxs_dan_Fakta/master/dataset_tempo_6k(fakta).csv"
+
+df_hoax = pd.read_csv(data_hoax, sep=';')
+df_fakta = pd.read_csv(data_fakta, sep=';')
+
+# gabungkan data
+df = pd.concat([df_hoax, df_fakta], axis=0, ignore_index=True)
+
+df_model_1 = df[['FullText', 'hoax']].copy()
+df_model_1.columns = ['text', 'label']
 
 def clean_text(text):
     text = re.sub(r"http\S+|www\S+", "", text)
